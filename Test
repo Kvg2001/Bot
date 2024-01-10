@@ -17,7 +17,8 @@ config = {
   'port': 3306
 }
 
-
+conn = mysql.connector.connect(**config)
+cursor = conn.cursor()
 
 @bot.event
 async def on_ready():
