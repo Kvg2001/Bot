@@ -9,16 +9,13 @@ intents.presences = False
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 # Conectare la baza de date MySQL
-config = {
-  'host': '93.115.101.23',
-  'user': 'u521_FSfdz1guUF',
-  'password': 'jg9sfLwntt@StfB+tNG^7QRR',
-  'database': 's521_webProject',
-  'port': 3306
-}
-
-conn = mysql.connector.connect(**config)
-cursor = conn.cursor()
+conn = mysql.connector.connect(
+    host='93.115.101.23',
+    user='u521_FSfdz1guUF',
+    password='jg9sfLwntt@StfB+tNG^7QRR',
+    database='s521_webProject',
+    port=3306
+)
 
 @bot.event
 async def on_ready():
@@ -27,9 +24,11 @@ async def on_ready():
 @bot.command()
 async def register(ctx):
     user = ctx.author
+    cursor = conn.cursor()
     cursor.execute('INSERT INTO testbot (id, nume, discriminator) VALUES (%s, %s, %s)',
                    (user.id, user.name, user.discriminator))
     conn.commit()
+    cursor.close()
     await ctx.send(f'{user.name} a fost Ã®nregistrat cu succes!')
 
 bot.run('MTE5MzA4NTM1NDg3ODcxMzkzNg.GgkgLO._8_kVe8EULzay6PUb92U3Kp6-wlY6i90P9nwMw')
